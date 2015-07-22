@@ -1,4 +1,8 @@
+#intellij
 .idea
+*.iml
+
 out
+
+#Mac filesystem
 .DS_Store
-RestructuredWriter.iml

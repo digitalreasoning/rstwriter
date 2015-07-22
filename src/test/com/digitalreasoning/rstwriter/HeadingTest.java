@@ -104,18 +104,18 @@ public class HeadingTest {
     public void linkTargetTest(){
         Heading.Builder builder = Heading.builder("Heading").addParagraph("Paragraph").addLinkTarget("target");
         String[] lines = builder.build().write().split("\n");
-        assertEquals(lines[0], ".. _target: ");
-        assertEquals(lines[1], "");
-        assertTrue(lines[2].startsWith("#"));
+        assertEquals("1", lines[0], ".. _target: ");
+        assertEquals("2", lines[1], "");
+        assertTrue("3",lines[2].startsWith("#"));
 
         builder.addLinkTarget("other").openSubHeading("heading").addLinkTarget("inner").closeSubHeading();
         lines = builder.build().write().split("\n");
-        assertEquals(lines[0], ".. _target: ");
-        assertEquals(lines[1], ".. _other: ");
-        assertEquals(lines[2], "");
-        assertTrue(lines[3].startsWith("#"));
-        assertEquals(lines[9], ".. _inner: ");
-        assertTrue(lines.length == 14); //there are 14 newLine characters, but the last two only produce 1 element in split
+        assertEquals("4", lines[0], ".. _target: ");
+        assertEquals("5", lines[1], ".. _other: ");
+        assertEquals("6", lines[2], "");
+        assertTrue("7", lines[3].startsWith("#"));
+        assertEquals("8", lines[9], ".. _inner: ");
+        assertTrue("9", lines.length == 14); //there are 14 newLine characters, but the last two only produce 1 element in split
     }
 
     @Test
@@ -124,12 +124,12 @@ public class HeadingTest {
                 .addDefinition(new LinkDefinition("target", "dest"));
         String[] lines = builder.build().write().split("\n");
         assertTrue(lines[0].startsWith("#"));
-        assertEquals(lines[6], ".. _target: dest");
+        assertEquals("1def target", ".. _target: dest", lines[6]);
 
         builder.openSubHeading("subheading").addDefinition(new LinkDefinition("second", "destination")).closeSubHeading();
         lines = builder.build().write().split("\n");
         assertTrue(lines[0].startsWith("#"));
-        assertEquals(lines[10], ".. _second: destination");
-        assertEquals(lines[11], ".. _target: dest");
+        assertEquals("def second", ".. _second: destination", lines[10]);
+        assertEquals("2def target", ".. _target: dest", lines[12]);
     }
 }

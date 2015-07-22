@@ -31,7 +31,6 @@ public class FileTest {
                 .addLinkTarget("link").build();
         file.addHeading(h);
         String str = file.build().write();
-        System.out.print(str);
         String[] lines = str.split("\n");
         assertTrue(lines[0].startsWith("P"));
         assertTrue(lines[1].equals(""));
@@ -97,7 +96,7 @@ public class FileTest {
             FileWriter file = new FileWriter(f.build());
             file.writeTo(new File(outDir));
             diff(outDir + filename + ".rst", "src/test/sample-rst");
-            //new File(outDir + filename + ".rst").delete();
+            new File(outDir + filename + ".rst").delete();
         }catch(IOException e){
             e.printStackTrace();
         }

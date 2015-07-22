@@ -3,7 +3,8 @@ package com.digitalreasoning.rstwriter.directive;
 import com.digitalreasoning.rstwriter.Directive;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import static com.digitalreasoning.rstwriter.directive.BaseDirective.escapeString;
 
 /**
@@ -14,12 +15,12 @@ public class Image implements Directive {
         TOP, MIDDLE, BOTTOM, LEFT, CENTER, RIGHT
     }
     private BaseDirective directive;
-    private HashMap<String, String> options;
+    private TreeMap<String, String> options;
     
     public Image(String imagePath){
         directive = new BaseDirective("image");
         directive.addArgument(imagePath);
-        options = new HashMap<>();
+        options = new TreeMap<>();
     }
 
     public Image setHeight(int height){
@@ -52,17 +53,14 @@ public class Image implements Directive {
         return this;
     }
 
-    protected HashMap<String,String> getOptionMap(){
+    protected TreeMap<String,String> getOptionMap(){
         return options;
     }
 
     @Override
     public String write(){
-        String[] arr = new String[options.keySet().size()];
-        arr = options.keySet().toArray(arr);
-        Arrays.sort(arr);
-        for(String str : arr){
-            directive.addOption(str, options.get(str));
+        for(Map.Entry<String, String> entry : options.entrySet()){
+            directive.addOption(entry.getKey(), entry.getValue());
         }
         return directive.write();
     }

@@ -34,9 +34,9 @@ public class DirectiveTest {
         assertEquals(result, i.write());
         i.setAlternateText("text$").setWidth(300).setAlignment(Image.Alignment.TOP);
         result = ".. image:: http://image.jpeg\n    " +
+                ":align:    top\n    " +
                 ":alt:    text$\n    " +
-                ":width:    300\n    " +
-                ":align:    top\n";
+                ":width:    300\n";
         assertEquals(result, i.write());
     }
 
