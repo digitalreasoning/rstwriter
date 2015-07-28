@@ -2,7 +2,7 @@ package com.digitalreasoning.rstwriter.bodyelement;
 
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
-import static com.digitalreasoning.rstwriter.bodyelement.TextProcessor.inlineParse;
+import static com.digitalreasoning.rstwriter.bodyelement.Utils.inlineParse;
 
 /**
  * Created by creynolds on 7/13/15.

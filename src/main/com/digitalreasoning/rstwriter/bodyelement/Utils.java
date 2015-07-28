@@ -5,7 +5,12 @@ import com.digitalreasoning.rstwriter.Inline;
 /**
  * Created by creynolds on 7/14/15.
  */
-class TextProcessor {
+class Utils
+{
+    private Utils(){}
+
+    public static final String INDENT = "    ";
+
     public static final char ESCAPE = '$';
 
     protected static String inlineParse(String sequence, Inline... inlines){

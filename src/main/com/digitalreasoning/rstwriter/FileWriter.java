@@ -9,7 +9,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 /**
- * Created by creynolds on 7/13/15.
+ * The FileWriter class writes an RstFile to the desired medium. It supports writing to an Appendable, File, or Filer.
+ *
  */
 public class FileWriter {
     private RstFile file;

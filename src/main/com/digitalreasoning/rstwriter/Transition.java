@@ -1,7 +1,8 @@
 package com.digitalreasoning.rstwriter;
 
 /**
- * Created by creynolds on 7/16/15.
+ * A Transition is simply a horizontal bar that can be useful as an informal separation in content. Transitions can be nested
+ * inside Headings, but not body elements.
  */
 public class Transition implements RstElement {
     @Override

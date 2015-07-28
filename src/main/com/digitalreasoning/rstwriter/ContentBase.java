@@ -22,7 +22,7 @@ class ContentBase implements RstElement{
      * The characters and order of precedence in the borders correspond to Sphinx's recommended list at
      * <a href="http://sphinx-doc.org/rest.html#sections"></a>, followed by arbitrary alternatives
      */
-    private final char[] borders = {'#', '*', '=', '-', '^', '"', // <- recommended
+    private static final char[] borders = {'#', '*', '=', '-', '^', '"', // <- recommended
             '\'', ':', '.', '/', ';', '\\', ',', '`', '[', '{', '(', '<', '+', '_', '$', '%', '&', '@', '?', '!', ']', '}', ')', '>'}; //alternatives
     /**
      * the Heading level. 0 is highest. Levels 1 and above are nested headings.

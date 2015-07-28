@@ -14,14 +14,14 @@ public class CodeBlock implements RstBodyElement {
     }
 
     public CodeBlock addLine(String line){
-        text += Constants.INDENT + line.replaceAll("\t", Constants.INDENT) + "\n";
+        text += Utils.INDENT + line.replaceAll("\t", Utils.INDENT) + "\n";
         return this;
     }
 
     public CodeBlock addCode(String code){
         String[] lines = code.split("\n");
         for(String line : lines){
-            text += Constants.INDENT + line.replaceAll("\t", Constants.INDENT) + "\n";
+            text += Utils.INDENT + line.replaceAll("\t", Utils.INDENT) + "\n";
         }
         return this;
     }
