@@ -79,10 +79,10 @@ public class RstFile {
         }
 
         /**
-         * Adds a directive to the content of this Builder. Directives are body elements, so their order
-         * TODO do I want this?
+         * Adds a directive to the content of this Builder. Directives are body elements, so they will be seen among other
+         * elements in order of addition
          * @param directive the directive to be added
-         * @return
+         * @return this Builder with the directive added
          */
         public Builder addDirective(Directive directive){
             contentBase.add(directive);
