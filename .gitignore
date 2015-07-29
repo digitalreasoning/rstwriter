@@ -2,7 +2,7 @@
 .idea
 *.iml
 
-out
+target/
 
 #Mac filesystem
 *.DS_Store
