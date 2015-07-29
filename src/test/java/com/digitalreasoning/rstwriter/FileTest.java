@@ -91,10 +91,10 @@ public class FileTest {
         f.addHeading(heading.build()).addHeading(top2.build());
 
         try {
-            String outDir = "out/test/";
+            String outDir = "target/test/";
             FileWriter file = new FileWriter(f.build());
             file.writeTo(new File(outDir));
-            diff(outDir + filename + ".rst", "src/test/sample-rst");
+            diff(outDir + filename + ".rst", "src/test/resources/sample-rst");
             new File(outDir + filename + ".rst").delete();
         }catch(IOException e){
             e.printStackTrace();
