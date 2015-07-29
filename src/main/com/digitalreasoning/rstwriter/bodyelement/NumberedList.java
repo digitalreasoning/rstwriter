@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.List;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -19,6 +21,14 @@ public class NumberedList extends EnumeratedList {
         super(str, '#');
     }
 
+    /**
+     * Creates an numbered list from the given list. By default, capital letters are used.
+     * @param list items to be added
+     */
+    public NumberedList(List<String> list){
+        super(list, 'A');
+    }
+    
     /**
      * Adds an item to this list, and processes it for inline markup
      * @param str the item to be added
@@ -40,6 +50,16 @@ public class NumberedList extends EnumeratedList {
         return this;
     }
 
+    /**
+     * Adds all items to the list
+     * @param list items to be added
+     * @return this NumberedList with the items added
+     */
+    public NumberedList addItems(List<String> list){
+        super.addItems(list);
+        return this;
+    }
+    
     /**
      * Adds a sub-list given as a parameter; the sub-list is indented and added after the current item. Subsequent additions
      * to this list will be placed after the sub-list.

@@ -17,14 +17,16 @@ public class TableTest {
                 {{"a", "", "c"}, {"d", "", "f"}, {"g", "", "i"}},
                 {{"a", "bbbbb", "c"}, {"d", "e", "f"}, {"g", "h", "i"}},
                 {{"aaa", "bbb", "ccc"}, {"dd", "e", "ffff"}},
-                {{"a", "b"}, {"c", "d"}, {"e", "f"}, {"g", "h"}}};
+                {{"a", "b"}, {"c", "d"}, {"e", "f"}, {"g", "h"}},
+                {{"a"}}};
         String[] resultTables = {
                 "+---+---+---+\n| a | b | c |\n+---+---+---+\n| d | e | f |\n+---+---+---+\n| g | h | i |\n+---+---+---+\n" ,
                 "+----+----+----+\n| aa | b  | c  |\n+----+----+----+\n| d  | ee | f  |\n+----+----+----+\n|    |    |    |\n+----+----+----+\n| g  | h  | ii |\n+----+----+----+\n" ,
                 "+---+--+---+\n| a |  | c |\n+---+--+---+\n| d |  | f |\n+---+--+---+\n| g |  | i |\n+---+--+---+\n" ,
                 "+---+-------+---+\n| a | bbbbb | c |\n+---+-------+---+\n| d | e     | f |\n+---+-------+---+\n| g | h     | i |\n+---+-------+---+\n" ,
                 "+-----+-----+------+\n| aaa | bbb | ccc  |\n+-----+-----+------+\n| dd  | e   | ffff |\n+-----+-----+------+\n"  ,
-                "+---+---+\n| a | b |\n+---+---+\n| c | d |\n+---+---+\n| e | f |\n+---+---+\n| g | h |\n+---+---+\n"};
+                "+---+---+\n| a | b |\n+---+---+\n| c | d |\n+---+---+\n| e | f |\n+---+---+\n| g | h |\n+---+---+\n",
+                "+---+\n| a |\n+---+\n"};
         for(int i = 0; i<tables.length; i++){
             assertEquals("Simple Table # " + i + "fail", resultTables[i], new Table(tables[i]).write());
         }
@@ -76,12 +78,6 @@ public class TableTest {
             new Table(table).write();
             fail("null rows");
         }catch(NullPointerException e){}
-
-        try{
-            String[][] table = {{""}, {""}, {""}};
-            new Table(table).write();
-            fail("Table must have at least 2 columns");
-        }catch(IllegalArgumentException e){}
 
         try{
             String[][] table = {{"", "", ""}, {"", "", ""}, {"", ""}};
@@ -147,7 +143,7 @@ public class TableTest {
 
         try{
             Table t = Table.builder().addCell("").addCell("").addCell("").nextRow().addCell("").addCell("").nextRow().build();
-        }catch (IllegalArgumentException e){}
+        }catch (IllegalStateException e){}
     }
 
     @Test

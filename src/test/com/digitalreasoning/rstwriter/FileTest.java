@@ -1,6 +1,5 @@
 package com.digitalreasoning.rstwriter;
 
-import com.digitalreasoning.rstwriter.bodyelement.AlphabeticList;
 import com.digitalreasoning.rstwriter.bodyelement.BulletList;
 import com.digitalreasoning.rstwriter.bodyelement.FieldList;
 import com.digitalreasoning.rstwriter.bodyelement.Table;
@@ -75,8 +74,8 @@ public class FileTest {
                 .closeSubHeading();
         subHeading.addSubHeading(subsub.build()).openSubHeading("second subsub")
                 .addBodyElement(RstBodyElement.codeBlock("Added a code block").addLine("with a new line!")
-                        .addCode("See how this custom line break we\nadded does"))
-                .addBodyElement(RstBodyElement.unmarkedList("And for\ngood measure\nan unmarked").addItem("list"))
+                        .addText("See how this custom line break we\nadded does"))
+                .addBodyElement(RstBodyElement.lineBlock("And for\ngood measure\nan unmarked").addLine("list"))
         .closeSubHeading();
         heading.addSubHeading(subHeading.build());
 

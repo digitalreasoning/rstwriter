@@ -15,7 +15,7 @@ import com.digitalreasoning.rstwriter.bodyelement.SubstitutionDefinition;
  * "**This** is the String that will use the ``Inline`` markup capability"
  *
  * Note: the Inline arguments must match the order of the $I in the text. Also, because the '$' triggers the text processing,
- * to correctly include a '$' in the processed String is to escape it with another '$'. For instance:
+ * to correctly include a '$' in the processed String it's necessary to escape it with another '$'. For instance:
  * foo("The chocolate bar cost me $$1.25")
  * produces:
  * "The chocolate bar cost me $1.25"

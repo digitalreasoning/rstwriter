@@ -87,16 +87,9 @@ public class HeadingTest {
         }
 
         try{
-            Heading.Builder h = Heading.builder("name");
-            h.openSubHeading("name"); h.openSubHeading("name");
-            fail("opened multiple subheadings at once");
+            Heading.builder("name").openSubHeading("heading").openSubHeading("heading").closeSubHeading().build();
+            fail("unclosed subheading, multiple opens");
         }catch(IllegalStateException e){
-        }
-
-        try{
-            Heading.builder("name").openSubHeading("name").build();
-            fail("Called build on an open subheading");
-        }catch(UnsupportedOperationException e){
         }
     }
 

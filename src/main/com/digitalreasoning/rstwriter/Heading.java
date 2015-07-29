@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter;
 
+import java.util.Stack;
+
 import com.digitalreasoning.rstwriter.bodyelement.LinkDefinition;
 import com.digitalreasoning.rstwriter.bodyelement.Paragraph;
 
@@ -68,15 +70,15 @@ public class Heading implements RstElement {
     /**
      * The Builder class is used to instantiate a Heading object. The Builder takes all of the content to be included
      * in the Heading and stores it until {@code build()} is called. An instance of the Builder can be obtained via
-     * the static {@code builder} method in Heading or by means of the public constructor. All additions of body elements will
-     * be seen in-order: that is, the order in which body elements are added is the order they will appear in the Heading.
-     * However, Headings and {@link Definition}s will always appear after the body elements. Headings will
-     * immediately follow the body elements, Definitions will be seen after all content.
+     * the static {@code builder} method in Heading or by means of the public constructor. All additions of elements will
+     * be seen in-order: that is, the order in which elements are added is the order they will appear in the Heading.
+     * However, when using the {@code addLinkTarget} and {@code addDefinition} methods, the library's default behavior
+     * will place link targets before the heading and definitions after all of the heading's content. To place these
+     * elements in a specific place, use the {@code addBodyElement} method
      */
     public static class Builder{
         private ContentBase contentBase;
-        private Heading.Builder parent;
-        private boolean hasOpenSubheading = false;
+        private Stack<ContentBase> contentStack;
 
         /**
          * Public constructor for the Builder of a Heading.
@@ -84,12 +86,7 @@ public class Heading implements RstElement {
          */
         public Builder(String name){
             contentBase = new ContentBase(name);
-            parent = null;
-        }
-
-        private Builder(String name, Heading.Builder parent){
-            contentBase = new ContentBase(name);
-            this.parent = parent;
+            contentStack = new Stack<>();
         }
 
         /**
@@ -114,8 +111,8 @@ public class Heading implements RstElement {
         }
 
         /**
-         * Adds a directive to the content of this Builder. Directives are body elements, so their order
-         * TODO do I want this?
+         * Adds a directive to the content of this Builder. Directives are body elements, so their order in the file
+         * matches the order in which elements are added
          * @param directive the directive to be added
          * @return this Builder with the directive added
          */
@@ -151,7 +148,7 @@ public class Heading implements RstElement {
         }
 
         /**
-         * Adds a transition (a horizontal bar) to the content of this Builder. Transitions behave like {@code Headings}
+         * Adds a transition (a horizontal bar) to the content of this Builder. Transitions behave like body elements
          * in the RstFile's ordering of content
          * @return this Builder with a transition added
          */
@@ -181,11 +178,9 @@ public class Heading implements RstElement {
          * @throws IllegalStateException if this Builder already has an open subheading
          */
         public Builder openSubHeading(String name){
-            if(hasOpenSubheading){
-                throw new IllegalStateException("Subheading already open in this builder");
-            }
-            hasOpenSubheading = true;
-            return new Heading.Builder(name, this);
+            contentStack.push(contentBase);
+            contentBase = new ContentBase(name);
+            return this;
         }
 
         /**
@@ -195,12 +190,13 @@ public class Heading implements RstElement {
          * @throws IllegalStateException if this subheading doesn't have a parent
          */
         public Builder closeSubHeading(){
-            if(parent == null){
-                throw new IllegalStateException("This subheading doesn't have a parent.");
+            if(contentStack.isEmpty()){
+                throw new IllegalStateException("No subHeading was opened");
             }
-            parent.hasOpenSubheading = false;
-            parent.addSubHeading(this.build());
-            return parent;
+            ContentBase parent = contentStack.pop();
+            parent.add(contentBase);
+            contentBase = parent;
+            return this;
         }
 
         /**
@@ -210,11 +206,8 @@ public class Heading implements RstElement {
          * @throws UnsupportedOperationException if called on a subheading that has a parent builder
          */
         public Heading build(){
-            if(hasOpenSubheading){
+            if(!contentStack.isEmpty()){
                 throw new IllegalStateException("This builder has an open subheading.");
-            }
-            if(parent != null && parent.hasOpenSubheading){
-                throw new UnsupportedOperationException("Calling build() on an open subheading not supported");
             }
             return new Heading(contentBase);
         }

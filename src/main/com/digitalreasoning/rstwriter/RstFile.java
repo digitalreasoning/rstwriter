@@ -41,10 +41,10 @@ public class RstFile {
     /**
      * The Builder class is used to instantiate an RstFile object. The Builder takes all of the content to be included
      * in the RstFile and stores it until {@code build()} is called. An instance of the Builder can be obtained via
-     * the static {@code builder} method in RstFile or by means of the public constructor. All additions of body elements will
-     * be seen in-order: that is, the order in which body elements are added is the order they will appear in the RstFile.
-     * However, {@link Heading}s and {@link Definition}s will always appear after the body elements. Headings will
-     * immediately follow the body elements, Definitions will be seen after all content.
+     * the static {@code builder} method in RstFile or by means of the public constructor. All additions of elements will
+     * be seen in-order: that is, the order in which elements are added is the order they will appear in the RstFile.
+     * However, when using the {@code addDefinition} method, the definition added will appear after all content in the file.
+     * To place a definition in a specific place, use the {@code addBodyElement} method.
      */
     public static class Builder {
         private ContentBase contentBase;
@@ -110,7 +110,7 @@ public class RstFile {
         }
 
         /**
-         * Adds a transition (a horizontal bar) to the content of this Builder. Transitions behave like {@code Headings}
+         * Adds a transition (a horizontal bar) to the content of this Builder. Transitions behave like body elements
          * in the RstFile's ordering of content
          * @return this Builder with a transition added
          */

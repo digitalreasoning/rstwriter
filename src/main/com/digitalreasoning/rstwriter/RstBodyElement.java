@@ -10,20 +10,20 @@ import com.digitalreasoning.rstwriter.bodyelement.*;
 public interface RstBodyElement extends RstElement{
 
     /**
-     * Returns an empty literal-line-break block
-     * @return empty literal-line-break list
+     * Returns an empty line block
+     * @return empty line block
      */
-    static UnmarkedList unmarkedList(){
-        return new UnmarkedList("");
+    static LineBlock lineBlock(){
+        return new LineBlock("");
     }
 
     /**
-     * Returns a literal-line-break block based on the parameter String
+     * Returns a line block based on the parameter String
      * @param str a block of '\n' separated lines
-     * @return a literal-line-break block with line breaks as defined in the parameter
+     * @return a line block with line breaks as defined in the parameter
      */
-    static UnmarkedList unmarkedList(String str){
-        return new UnmarkedList(str);
+    static LineBlock lineBlock(String str){
+        return new LineBlock(str);
     }
 
     /**
@@ -101,8 +101,8 @@ public interface RstBodyElement extends RstElement{
     static OptionList optionList(){ return new OptionList(); }
 
     /**
-     * Returns a table based on the parameter array. The array must be rectangular and have at least 2 columns. The table
-     * is interpreted as array[row][col] with (0,0) at the top left; also, all borders are filled in.
+     * Returns a table based on the parameter array. The array must be rectangular. The table is interpreted as
+     * array[row][col] with (0,0) at the top left; also, all borders are filled in.
      * @param str the array representing the desired table
      * @return an initialized Table object
      * @throws IllegalArgumentException for malformed tables
@@ -121,6 +121,6 @@ public interface RstBodyElement extends RstElement{
      * @param str the code inside the code block
      * @return a code block containing the parameter
      */
-    static CodeBlock codeBlock(String str){ return new CodeBlock(str); }
+    static LiteralBlock codeBlock(String str){ return new LiteralBlock(str); }
     
 }

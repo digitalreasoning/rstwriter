@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.Map;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -28,6 +30,17 @@ public class OptionList extends PairedList {
     }
 
     /**
+     * creates an option list from the provided map. Items are checked for correct syntax before being added. Order is 
+     * determined by the map's foreach implementation. Options will be the map's keys, definitions will be the map's values
+     * @param map key value pairs to be added as items to the list
+     * @throws IllegalArgumentException if option is empty, contains white space, or doesn't start with '-' or '/'
+     */
+    public OptionList(Map<String, String> map){
+        super(Utils.INDENT);
+        addItems(map);
+    }
+    
+    /**
      * Adds a option/definition pair to the list.
      * @param option a command line option being defined
      * @param definition the definition of the option. The definition is processed for inline markup
@@ -51,6 +64,19 @@ public class OptionList extends PairedList {
     public OptionList addItem(String option, RstBodyElement definition){
         validateSyntax(option);
         super.addItem(option, definition);
+        return this;
+    }
+
+    /**
+     * adds the items to the option list. The order of items will be determined by the map's foreach implementation. The
+     * map's keys will be the left elements, values will be right
+     * @param map items to add to the list
+     * @return this option list with the items added
+     */
+    public OptionList addItems(Map<String, String> map){
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            addItem(entry.getKey(), entry.getValue());
+        }
         return this;
     }
 

@@ -11,7 +11,7 @@ import com.digitalreasoning.rstwriter.Directive;
  *
  * If this class is used in conjunction with the Heading or RstFile Builders, the default behavior is to add the definition
  * at the end of the content contained in said Heading or RstFile. However, the definitions can be placed anywhere. So,
- * when adding defintions, the two options are:
+ * when adding definitions, the two options are:
  * 1) use the {@code addDefinition} methods to use the default behavior and place the definition at the end of the content
  * 2) use the {@code addRstBodyElement} methods to write the definition in a specific place
  */

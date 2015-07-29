@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.List;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -21,6 +23,14 @@ public class AlphabeticList extends EnumeratedList{
     }
 
     /**
+     * Creates an alphabetic list from the given list. By default, capital letters are used.
+     * @param list items to be added
+     */
+    public AlphabeticList(List<String> list){
+        super(list, 'A');
+    }
+
+    /**
      * creates an alphabetic list from the parameter String: items are separated by '\n'. The option of capital letters or
      * lowercase letters is provided as well.
      * @param str a String of list items separated by '\n'
@@ -28,6 +38,16 @@ public class AlphabeticList extends EnumeratedList{
      */
     public AlphabeticList(String str, boolean uppercase){
         super(str, uppercase ? 'A' : 'a');
+    }
+
+    /**
+     * creates an alphabetic list from the parameter list. The option of capital letters or lowercase letters is
+     * provided as well.
+     * @param list items to be added
+     * @param uppercase true for capital letters as enumerations, false for lowercase letters
+     */
+    public AlphabeticList(List<String> list, boolean uppercase){
+        super(list, uppercase ? 'A' : 'a');
     }
 
     /**
@@ -51,6 +71,16 @@ public class AlphabeticList extends EnumeratedList{
         return this;
     }
 
+    /**
+     * Adds all items to the list
+     * @param list items to be added
+     * @return this AlphabeticList with the items added
+     */
+    public AlphabeticList addItems(List<String> list){
+        super.addItems(list);
+        return this;
+    }
+    
     /**
      * Adds a sub-list given as a parameter; the sub-list is indented and added after the current item. Subsequent additions
      * to this list will be placed after the sub-list.

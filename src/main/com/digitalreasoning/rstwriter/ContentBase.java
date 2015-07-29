@@ -8,14 +8,15 @@ import java.util.List;
 
 /**
  * The ContentBase class is a container for the information added by the programmer. It takes RstElements
- * as arguments in its methods. It writes any RstBodyElements to a string immediately and stores headings for
+ * as arguments in its methods. It writes any RstBodyElements or Transitions to a string immediately and stores headings 
+ * to be placed after the initial content.
  */
 class ContentBase implements RstElement{
     /**
      * The heading title. If this content base represents a file, its value isn't used
      */
     private String title;
-    private ArrayList<ContentBase> elements;
+    private ArrayList<RstElement> elements;
     private String text;
     private boolean isFile = false;
     /**
@@ -37,11 +38,11 @@ class ContentBase implements RstElement{
      */
     private ArrayList<Definition> definitions;
 
-    public ContentBase(String name){
+    protected ContentBase(String name){
         this(name, 0);
     }
 
-    public ContentBase(String name, int level){
+    protected ContentBase(String name, int level){
         this.title = name;
         this.level = level;
         this.elements = new ArrayList<>();
@@ -50,16 +51,11 @@ class ContentBase implements RstElement{
         this.text = "";
     }
 
-    public void add(RstElement element){
-        if(element instanceof ContentBase) {
-            elements.add((ContentBase) element);
-        }
-        else {
-            text += element.write() + "\n";
-        }
+    protected void add(RstElement element){
+        elements.add(element);
     }
 
-    public void addLinkTarget(LinkDefinition linkDefinition){
+    protected void addLinkTarget(LinkDefinition linkDefinition){
         if(isFile)
             throw new UnsupportedOperationException("Link targets aren't supported at the RstFile level");
         String str = linkDefinition.write();
@@ -67,13 +63,13 @@ class ContentBase implements RstElement{
             linkTargets.add(str);
     }
 
-    public void addDefinition(Definition def){
+    protected void addDefinition(Definition def){
         definitions.add(def);
     }
 
-    public void isFile(){ isFile = true; }
+    protected void isFile(){ isFile = true; }
 
-    public String getTitle(){ return title; }
+    protected String getTitle(){ return title; }
 
     @Override
     public String write(){
@@ -86,10 +82,16 @@ class ContentBase implements RstElement{
         if(!isFile){
             returnString += border(title);
         }
-        returnString += text;
-        for(ContentBase cb : elements){
-            cb.level = this.level+1;
-            returnString += cb.write();
+        for(RstElement element : elements){
+            if(element instanceof ContentBase)
+            {
+                ContentBase cb = (ContentBase) element;
+                cb.level = this.level + 1;
+                returnString += cb.write();
+            }
+            else{
+                returnString += element.write() + "\n";
+            }
         }
         for(Definition d : definitions){
             returnString += d.write();

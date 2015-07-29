@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.Map;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -27,6 +29,17 @@ public class FieldList extends PairedList {
     }
 
     /**
+     * creates an field list from the provided map. Items are checked for correct syntax before being added. Order is 
+     * determined by the map's foreach implementation. Fields will be the map's keys, definitions will be the map's values
+     * @param map key value pairs to be added as items to the list
+     * @throws IllegalArgumentException if field is empty, contains white space, or doesn't start with '-' or '/'
+     */
+    public FieldList(Map<String, String> map){
+        super(Utils.INDENT);
+        addItems(map);
+    }
+    
+    /**
      * Adds a field/definition pair to the list.
      * @param field an information field
      * @param definition the value to assign to the field. The definition is processed for inline markup
@@ -52,6 +65,19 @@ public class FieldList extends PairedList {
         if(field.equals("")) throw new IllegalArgumentException("Empty field names not allowed");
         if(field.contains("\n")) throw new IllegalArgumentException("Field name can't contain new line");
         super.addItem(":"+ field.replaceAll(":", "\\:") + ":", definition);
+        return this;
+    }
+
+    /**
+     * adds the items to the field list. The order of items will be determined by the map's foreach implementation. The
+     * map's keys will be the left elements, values will be right
+     * @param map items to add to the list
+     * @return this field list with the items added
+     */
+    public FieldList addItems(Map<String, String> map){
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            addItem(entry.getKey(), entry.getValue());
+        }
         return this;
     }
 

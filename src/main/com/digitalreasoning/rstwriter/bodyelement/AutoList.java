@@ -1,12 +1,14 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.List;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
 /**
  * The AutoList class represents an automatically generated list. In reStructuredText, automatically generated lists
  * include {@link BulletList}s, {@link NumberedList}s, {@link AlphabeticList}s, and {@link RomanNumeralList}s. Furthermore,
- * this class powers the {@link UnmarkedList}. List items begin with a predefined marker (* for bullet lists, #. for
+ * this class powers the {@link LineBlock}. List items begin with a predefined marker (* for bullet lists, #. for
  * enumerated lists) and may contain text (with or without inline markup) or any other body element.
  */
 class AutoList implements RstBodyElement {
@@ -23,12 +25,14 @@ class AutoList implements RstBodyElement {
      * @param marker the normal symbol that begins an item
      * @param start the symbol that begins the first item to determine the list type (alphabetic, numerical, roman numerical)
      */
-    public AutoList(String str, String marker, String start){
+    protected AutoList(String str, String marker, String start){
         String[] lines = str.split("\n");
         this.marker = marker;
         this.start = start;
         this.align = "";
-        for(int i = 0; i<this.marker.length() +1; i++) align += " ";
+        for(int i = 0; i<this.marker.length() +1; i++){
+            align += " ";
+        }
         text = "";
         for(String line: lines){
             if(!line.equals("")) {
@@ -38,12 +42,24 @@ class AutoList implements RstBodyElement {
     }
 
     /**
+     * Creates an AutoList from the specified list and line markers
+     * @param list items to be added
+     * @param marker beginning of each item's line
+     * @param start beginning of the first item's line to determine list type
+     */
+    protected AutoList(List<String> list, String marker, String start){
+        this( "", marker, start);
+        addItems(list);
+    }
+
+
+    /**
      * Creates an AutoList with items defined by the parameter String. Items are separated by '\n' characters. The type of
      * this list will determine which symbol will begin each item of the list
      * @param str a list of items separated by '\n'
      * @param marker the normal symbol that begins an item
      */
-    public AutoList(String str, String marker){
+    protected AutoList(String str, String marker){
         this(str, marker, marker);
     }
 
@@ -53,7 +69,7 @@ class AutoList implements RstBodyElement {
      * @param inlines optional arguments specifying inline markup
      * @return this list with the item added
      */
-    public AutoList addItem(String str, Inline... inlines){
+    protected AutoList addItem(String str, Inline... inlines){
         String toAdd = processItem(str, inlines);
         text += getSymbol() + " " + toAdd + "\n";
         return this;
@@ -64,7 +80,7 @@ class AutoList implements RstBodyElement {
      * @param element the item to be added
      * @return this list with the item added
      */
-    public AutoList addItem(RstBodyElement element){
+    protected AutoList addItem(RstBodyElement element){
         String[] lines = element.write().split("\n");
         if(lines.length > 0){
             text += getSymbol() + " " + lines[0] + "\n";
@@ -75,12 +91,24 @@ class AutoList implements RstBodyElement {
     }
 
     /**
+     * Adds all items to the list
+     * @param list items to be added
+     * @return this AutoList with the items added
+     */
+    protected AutoList addItems(List<String> list){
+        for(String item : list){
+            addItem(item);
+        }
+        return this;
+    }
+
+    /**
      * Adds a sub-list given as a parameter; the sub-list is indented and added after the current item. Subsequent additions
      * to this list will be placed after the sub-list.
      * @param list the sub-list to be added
      * @return this list with the sub-list added
      */
-    public AutoList addSubList(AutoList list){
+    protected AutoList addSubList(AutoList list){
         if(list.text.equals("")) return this;
         text += "\n";
         String[] items = list.text.split("\n");
@@ -97,7 +125,7 @@ class AutoList implements RstBodyElement {
      * @param list the sub-list to be added, with items separated by the character '\n'
      * @return this list with the sub-list added
      */
-    public AutoList addSubList(String list){
+    protected AutoList addSubList(String list){
         return addSubList(new AutoList(list, marker, start));
     }
 

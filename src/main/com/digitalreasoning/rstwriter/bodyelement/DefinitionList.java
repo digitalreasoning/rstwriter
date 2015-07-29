@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.Map;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -29,6 +31,17 @@ public class DefinitionList extends PairedList {
         super("\n" + Utils.INDENT);
     }
 
+    /**
+     * creates an definition list from the provided map. Items are checked for correct syntax before being added. Order is 
+     * determined by the map's foreach implementation. Definitions will be the map's keys, definitions will be the map's values
+     * @param map key value pairs to be added as items to the list
+     * @throws IllegalArgumentException if definition is empty, contains white space, or doesn't start with '-' or '/'
+     */
+    public DefinitionList(Map<String, String> map){
+        super(Utils.INDENT);
+        addItems(map);
+    }
+    
     /**
      * Adds a term/definition pair to the list.
      * @param term the term being defined
@@ -78,6 +91,19 @@ public class DefinitionList extends PairedList {
      */
     public DefinitionList addItem(String term, String[] classifiers, RstBodyElement definition){
         super.addItem(correctTerm(term, classifiers), definition);
+        return this;
+    }
+
+    /**
+     * adds the items to the definition list. The order of items will be determined by the map's foreach implementation. The
+     * map's keys will be the left elements, values will be right
+     * @param map items to add to the list
+     * @return this definition list with the items added
+     */
+    public DefinitionList addItems(Map<String, String> map){
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            addItem(entry.getKey(), entry.getValue());
+        }
         return this;
     }
 

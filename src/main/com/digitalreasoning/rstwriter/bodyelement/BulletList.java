@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.List;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -17,6 +19,15 @@ public class BulletList extends AutoList {
         super(str, "*");
     }
 
+
+    /**
+     * Creates an bullet list from the given list. By default, capital letters are used.
+     * @param list items to be added
+     */
+    public BulletList(List<String> list){
+        super(list, "*", "*");
+    }
+    
     /**
      * Adds an item to this list, and processes it for inline markup
      * @param str the item to be added
@@ -35,6 +46,16 @@ public class BulletList extends AutoList {
      */
     public BulletList addItem(RstBodyElement bodyElement){
         super.addItem(bodyElement);
+        return this;
+    }
+
+    /**
+     * Adds all items to the list
+     * @param list items to be added
+     * @return this BulletList with the items added
+     */
+    public BulletList addItems(List<String> list){
+        super.addItems(list);
         return this;
     }
 

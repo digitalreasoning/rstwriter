@@ -1,5 +1,7 @@
 package com.digitalreasoning.rstwriter.bodyelement;
 
+import java.util.List;
+
 import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 
@@ -21,6 +23,14 @@ public class RomanNumeralList extends EnumeratedList{
     }
 
     /**
+     * Creates an Roman numeral list from the given list. By default, capital letters are used.
+     * @param list items to be added
+     */
+    public RomanNumeralList(List<String> list){
+        super(list, 'A');
+    }
+
+    /**
      * creates a Roman numeral list from the parameter String: items are separated by '\n'. The option of capital letters or
      * lowercase letters is provided as well.
      * @param str a String of list items separated by '\n'
@@ -30,6 +40,16 @@ public class RomanNumeralList extends EnumeratedList{
         super(str, uppercase ? 'I' : 'i');
     }
 
+    /**
+     * creates an Roman numeral list from the parameter list. The option of capital letters or lowercase letters is
+     * provided as well.
+     * @param list items to be added
+     * @param uppercase true for capital letters as enumerations, false for lowercase letters
+     */
+    public RomanNumeralList(List<String> list, boolean uppercase){
+        super(list, uppercase ? 'A' : 'a');
+    }
+    
     /**
      * Adds an item to this list, and processes it for inline markup
      * @param str the item to be added
@@ -48,6 +68,16 @@ public class RomanNumeralList extends EnumeratedList{
      */
     public RomanNumeralList addItem(RstBodyElement bodyElement){
         super.addItem(bodyElement);
+        return this;
+    }
+
+    /**
+     * Adds all items to the list
+     * @param list items to be added
+     * @return this RomanNumeralList with the items added
+     */
+    public RomanNumeralList addItems(List<String> list){
+        super.addItems(list);
         return this;
     }
 
