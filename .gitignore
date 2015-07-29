@@ -1,8 +1,15 @@
-#intellij
-.idea
+# intellij
 *.iml
+*.ipr
+*.iws
+.idea/
 
 target/
 
-#Mac filesystem
-*.DS_Store
+# Mac filesystem
+.DS_Store
+
+# eclipse
+.classpath
+.project
+.settings
