@@ -142,7 +142,7 @@ public class TableTest {
         }catch(IllegalArgumentException e){}
 
         try{
-            Table t = Table.builder().addCell("").addCell("").addCell("").nextRow().addCell("").addCell("").nextRow().build();
+            Table t = Table.getBuilder().addCell("").addCell("").addCell("").nextRow().addCell("").addCell("").nextRow().build();
         }catch (IllegalStateException e){}
     }
 
@@ -163,7 +163,7 @@ public class TableTest {
                 "+-----+-----+------+\n| aaa | bbb | ccc  |\n+-----+-----+------+\n| dd  | e   | ffff |\n+-----+-----+------+\n",
                 "+---+---+\n| a | b |\n+---+---+\n| c | d |\n+---+---+\n| e | f |\n+---+---+\n| g | h |\n+---+---+\n"};
         for (int i = 0; i < tables.length; i++) {
-            Table.Builder tb = Table.builder();
+            Table.Builder tb = Table.getBuilder();
             for (String[] row : tables[i]) {
                 for (String cell : row) {
                     tb.addCell(cell);
@@ -198,7 +198,7 @@ public class TableTest {
                 "+---+---+---+\n| a | b | c |\n+   +   +   +\n| d | e | f |\n+   +   +   +\n| g | h | i |\n+---+---+---+\n"
         };
         for (int i = 0; i < borders.length; i++) {
-            Table.Builder tb = Table.builder();
+            Table.Builder tb = Table.getBuilder();
             for (int row = 0; row < table.length; row++) {
                 for (int col = 0; col < table[0].length; col++) {
                     tb.addCell(table[row][col], borders[i][row][col]);

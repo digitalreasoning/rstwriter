@@ -11,7 +11,7 @@ public class NestingTest {
 
     @Test
     public void tableNesting(){
-        Table t = Table.builder().addCell("cell").addCell(new BulletList("item\nitem2\nitem3")).nextRow()
+        Table t = Table.getBuilder().addCell("cell").addCell(new BulletList("item\nitem2\nitem3")).nextRow()
                 .addCell("cell").addCell("cell").build();
         String[] tableString = t.write().split("\n");
         assertTrue(tableString.length == 7);

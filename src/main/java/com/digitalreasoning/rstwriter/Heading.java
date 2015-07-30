@@ -54,7 +54,7 @@ public class Heading implements RstElement {
         return content;
     }
 
-    public static Builder builder(String name){
+    public static Builder getBuilder(String name){
         return new Builder(name);
     }
 
@@ -209,7 +209,8 @@ public class Heading implements RstElement {
             if(!contentStack.isEmpty()){
                 throw new IllegalStateException("This builder has an open subheading.");
             }
-            return new Heading(contentBase);
+            ContentBase copy = new ContentBase(contentBase);
+            return new Heading(copy);
         }
     }
 }

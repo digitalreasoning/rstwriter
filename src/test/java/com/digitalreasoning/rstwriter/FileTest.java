@@ -22,10 +22,10 @@ public class FileTest {
 
     @Test
     public void simpleFileTest(){
-        RstFile.Builder file = RstFile.builder("tmp");
+        RstFile.Builder file = RstFile.getBuilder("tmp");
         file.addParagraph("Paragraph paragraph");
         file.addDirective(new Contents().setDepth(1));
-        Heading h = Heading.builder("name").addParagraph("Paragraph")
+        Heading h = Heading.getBuilder("name").addParagraph("Paragraph")
                 .addBodyElement(RstBodyElement.romanNumeralList("item\nitem2\nitem3"))
                 .addLinkTarget("link").build();
         file.addHeading(h);
@@ -49,9 +49,9 @@ public class FileTest {
     @Test
     public void writtenFileTest(){
         String filename = "bigfile";
-        RstFile.Builder f = RstFile.builder(filename);
-        Heading.Builder heading = Heading.builder("Heading");
-        Heading.Builder top2 = Heading.builder("Top 2");
+        RstFile.Builder f = RstFile.getBuilder(filename);
+        Heading.Builder heading = Heading.getBuilder("Heading");
+        Heading.Builder top2 = Heading.getBuilder("Top 2");
         f.addParagraph("Opening content. No big\ndeal");
         f.addBodyElement(
                 RstBodyElement.bulletList("bullets\nbullets")
@@ -64,10 +64,10 @@ public class FileTest {
         BulletList bullets = RstBodyElement.bulletList().addItem("maybe we should")
                 .addItem("have $I bullets", Inline.superscript("some")).addItem("with inline too");
         heading.addBodyElement(bullets);
-        Heading.Builder subHeading = Heading.builder("subheading");
+        Heading.Builder subHeading = Heading.getBuilder("subheading");
         subHeading.addDirective(new Image("picture.jpeg").setAlignment(Image.Alignment.LEFT)
                 .setWidth(200).setScale(40).setAlternateText("text"));
-        Heading.Builder subsub = Heading.builder("subsub");
+        Heading.Builder subsub = Heading.getBuilder("subsub");
         subsub.addParagraph("We'll add an inline $I in here", Inline.link("link", "destination.com", subsub));
         subsub.openSubHeading("subsubsub").openSubHeading("quadruple").addLinkTarget("triple").addLinkTarget("the")
                 .addLinkTarget("fun").addParagraph("Here's some content").closeSubHeading().addLinkTarget("subsubsub link")
@@ -81,7 +81,7 @@ public class FileTest {
 
         FieldList fieldList = RstBodyElement.fieldList()
                 .addItem("field", "list").addItem("test", "cause why not?");
-        Table t = Table.builder().addCell("a").addCell("b").addCell("c").nextRow()
+        Table t = Table.getBuilder().addCell("a").addCell("b").addCell("c").nextRow()
                 .addCell("z", Table.BORDER_BELOW).addCell("y").addCell(new Admonition(Admonition.Type.NOTE, "NOTE"))
                 .build();
         fieldList.addItem("table", t).addItem("another", "field");

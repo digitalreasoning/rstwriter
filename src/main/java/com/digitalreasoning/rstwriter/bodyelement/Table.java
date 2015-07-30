@@ -102,7 +102,7 @@ public class Table implements RstBodyElement {
      * returns an empty Table Builder
      * @return an empty Table Builder
      */
-    public static Builder builder(){
+    public static Builder getBuilder(){
         return new Builder();
     }
 
@@ -358,6 +358,18 @@ public class Table implements RstBodyElement {
         public Builder addCell(RstBodyElement element, int borderType){
             currentRow.add(element.write());
             borderRow.add(borderType);
+            return this;
+        }
+
+        /**
+         * Adds the given array elements as individual cells in the current row
+         * @param row cells to add to the table (Strings will be processed for inline markup)
+         * @return this builder with the cells added
+         */
+        public Builder addCells(String[] row){
+            for(String str : row){
+                addCell(str);
+            }
             return this;
         }
 
