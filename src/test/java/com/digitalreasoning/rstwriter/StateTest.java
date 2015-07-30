@@ -1,6 +1,7 @@
 package com.digitalreasoning.rstwriter;
 
 import com.digitalreasoning.rstwriter.bodyelement.BulletList;
+import com.digitalreasoning.rstwriter.bodyelement.Table;
 import com.digitalreasoning.rstwriter.directive.Image;
 
 import org.junit.Test;
@@ -14,7 +15,7 @@ public class StateTest
 	public static final String INDENT = "    ";
 	@Test
 	public void headingTest(){
-		Heading.Builder builder = Heading.builder("Heading")
+		Heading.Builder builder = Heading.getBuilder("Heading")
 		                                 .addParagraph("Text Text Text")
 		                                 .addDirective(new Image("img.jpeg"));
 		Heading h = builder.build();
@@ -30,11 +31,11 @@ public class StateTest
 
 	@Test
 	public void fileTest(){
-		RstFile.Builder builder = RstFile.builder("file").addParagraph("text text text")
-		                                 .addHeading(Heading.builder("heading").build())
+		RstFile.Builder builder = RstFile.getBuilder("file").addParagraph("text text text")
+		                                 .addHeading(Heading.getBuilder("heading").build())
 				                         .addBodyElement(RstBodyElement.alphabeticList("item\nitem2\nitem3"));
 		RstFile file0 = builder.build();
-		builder.addHeading(Heading.builder("Second heading").build()).addParagraph("Another paragraph");
+		builder.addHeading(Heading.getBuilder("Second heading").build()).addParagraph("Another paragraph");
 		RstFile file1 = builder.build();
 		assertFalse("Files are the same", file0.write().equals(file1.write()));
 
@@ -47,10 +48,24 @@ public class StateTest
 	@Test
 	public void containedListTest(){
 		BulletList bullet = new BulletList("item\nitem2\nitem3");
-		Heading.Builder heading = Heading.builder("heading");
+		Heading.Builder heading = Heading.getBuilder("heading");
 		heading.addBodyElement(bullet);
 		bullet.addItem("item4").addItem("item5");
 		String result = "#######\nheading\n#######\n\n* item\n* item2\n* item3\n\n";
 		assertEquals("Failed container test", result, heading.build().write());
+	}
+
+	@Test
+	public void tableTest(){
+		Table.Builder builder = Table.getBuilder().addCell("a").addCell("b").addCell("c").nextRow().addCell("d").addCell("e").addCell("f");
+		Table t = builder.build();
+		String [] arr = {"g", "h", "i"};
+		builder.addCells(arr);
+		Table t1 = builder.build();
+		assertFalse("Tables are the same", t.write().equals(t1.write()));
+		String result = "+---+---+---+\n| a | b | c |\n+---+---+---+\n| d | e | f |\n+---+---+---+\n";
+		assertEquals("First table fail", result, t.write());
+		String result1 = result + "| g | h | i |\n+---+---+---+\n";
+		assertEquals("Second table fail", result1, t1.write());
 	}
 }

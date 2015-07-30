@@ -114,7 +114,7 @@ public interface RstBodyElement extends RstElement{
      * returns a new Table Builder
      * @return a new Table Builder
      */
-    static Table.Builder tableBuilder() { return Table.builder(); }
+    static Table.Builder tableBuilder() { return Table.getBuilder(); }
 
     /**
      * returns a code block construct with the parameter String representing the code

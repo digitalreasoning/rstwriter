@@ -33,7 +33,7 @@ public class RstFile {
      * @param fileName the desired name of the file. The final name will be {@code fileName}.rst
      * @return a builder for an RstFile
      */
-    public static Builder builder(String fileName){
+    public static Builder getBuilder(String fileName){
         return new Builder(fileName);
     }
 

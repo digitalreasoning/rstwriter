@@ -54,7 +54,7 @@ public class Heading implements RstElement {
         return content;
     }
 
-    public static Builder builder(String name){
+    public static Builder getBuilder(String name){
         return new Builder(name);
     }
 

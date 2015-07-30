@@ -12,11 +12,11 @@ public class HeadingTest {
 
     @Test
     public void borderTest(){
-        Heading.Builder h0 = Heading.builder("Heading0");
-        Heading.Builder h1 = Heading.builder("Heading1");
-        Heading.Builder h2 = Heading.builder("Heading2");
-        Heading.Builder h3 = Heading.builder("Heading3");
-        Heading.Builder h4 = Heading.builder("Heading4");
+        Heading.Builder h0 = Heading.getBuilder("Heading0");
+        Heading.Builder h1 = Heading.getBuilder("Heading1");
+        Heading.Builder h2 = Heading.getBuilder("Heading2");
+        Heading.Builder h3 = Heading.getBuilder("Heading3");
+        Heading.Builder h4 = Heading.getBuilder("Heading4");
 
         Heading h = h0.addSubHeading(h1.addSubHeading(h2.addSubHeading(
                 h3.addSubHeading(h4.build()).build()).build()).build()).build();
@@ -25,11 +25,11 @@ public class HeadingTest {
                 "Heading3\n--------\n\nHeading4\n^^^^^^^^\n\n";
         assertEquals("Basic Border fail", result, h.write());
 
-         h0 = Heading.builder("Heading0");
-         h1 = Heading.builder("Heading1");
-         h2 = Heading.builder("Heading2");
-         h3 = Heading.builder("Heading3");
-         h4 = Heading.builder("Heading4");
+         h0 = Heading.getBuilder("Heading0");
+         h1 = Heading.getBuilder("Heading1");
+         h2 = Heading.getBuilder("Heading2");
+         h3 = Heading.getBuilder("Heading3");
+         h4 = Heading.getBuilder("Heading4");
 
         h = h0.addSubHeading(h1.addSubHeading(h2.build()).build())
                 .addSubHeading(h3.addSubHeading(h4.build()).build()).build();
@@ -37,11 +37,11 @@ public class HeadingTest {
                 "********\nHeading3\n********\n\nHeading4\n========\n\n";
         assertEquals("Tree-like border fail", result, h.write());
 
-        h0 = Heading.builder("Heading0");
-        h1 = Heading.builder("Heading1");
-        h2 = Heading.builder("Heading2");
-        h3 = Heading.builder("Heading3");
-        h4 = Heading.builder("Heading4");
+        h0 = Heading.getBuilder("Heading0");
+        h1 = Heading.getBuilder("Heading1");
+        h2 = Heading.getBuilder("Heading2");
+        h3 = Heading.getBuilder("Heading3");
+        h4 = Heading.getBuilder("Heading4");
         h = h0.addSubHeading(h1.addSubHeading(h2.addSubHeading(h3.build()).build()).build())
                 .addSubHeading(h4.build()).build();
         result  = "########\nHeading0\n########\n\n********\nHeading1\n********\n\nHeading2\n========\n\n" +
@@ -51,7 +51,7 @@ public class HeadingTest {
 
     @Test
     public void contentTest(){
-        Heading h = Heading.builder("TopHeading").addParagraph("Intro for this heading").addParagraph("Second paragraph")
+        Heading h = Heading.getBuilder("TopHeading").addParagraph("Intro for this heading").addParagraph("Second paragraph")
                 .openSubHeading("First subHeading")
                     .addParagraph("There's information here")
                     .addBodyElement(RstBodyElement.bulletList("point1\npoint2\npoint3"))
@@ -73,7 +73,7 @@ public class HeadingTest {
     @Test
     public void errorTest(){
         try{
-            Heading.Builder h = Heading.builder("name");
+            Heading.Builder h = Heading.getBuilder("name");
             h.openSubHeading("name");
             h.build();
             fail("Unclosed subheading fail");
@@ -81,13 +81,13 @@ public class HeadingTest {
         }
 
         try{
-            Heading.builder("name").closeSubHeading();
+            Heading.getBuilder("name").closeSubHeading();
             fail("Unopened subheading fail");
         }catch(IllegalStateException e){
         }
 
         try{
-            Heading.builder("name").openSubHeading("heading").openSubHeading("heading").closeSubHeading().build();
+            Heading.getBuilder("name").openSubHeading("heading").openSubHeading("heading").closeSubHeading().build();
             fail("unclosed subheading, multiple opens");
         }catch(IllegalStateException e){
         }
@@ -95,7 +95,7 @@ public class HeadingTest {
 
     @Test
     public void linkTargetTest(){
-        Heading.Builder builder = Heading.builder("Heading").addParagraph("Paragraph").addLinkTarget("target");
+        Heading.Builder builder = Heading.getBuilder("Heading").addParagraph("Paragraph").addLinkTarget("target");
         String[] lines = builder.build().write().split("\n");
         assertEquals("1", lines[0], ".. _target: ");
         assertEquals("2", lines[1], "");
@@ -113,7 +113,7 @@ public class HeadingTest {
 
     @Test
     public void definitionTest(){
-        Heading.Builder builder = Heading.builder("Heading").addParagraph("paragraph")
+        Heading.Builder builder = Heading.getBuilder("Heading").addParagraph("paragraph")
                 .addDefinition(new LinkDefinition("target", "dest"));
         String[] lines = builder.build().write().split("\n");
         assertTrue(lines[0].startsWith("#"));
