@@ -125,7 +125,8 @@ public class RstFile {
          * @return a fully formed, unmodifiable RstFile
          */
         public RstFile build(){
-            return new RstFile(contentBase);
+            ContentBase copy = new ContentBase(contentBase);
+            return new RstFile(copy);
         }
     }
 }

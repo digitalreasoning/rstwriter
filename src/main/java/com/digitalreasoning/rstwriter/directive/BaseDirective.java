@@ -5,6 +5,7 @@ import com.digitalreasoning.rstwriter.Inline;
 import com.digitalreasoning.rstwriter.bodyelement.Paragraph;
 import com.digitalreasoning.rstwriter.RstBodyElement;
 import com.digitalreasoning.rstwriter.bodyelement.FieldList;
+import static com.digitalreasoning.rstwriter.bodyelement.Utils.INDENT;
 
 /**
  * The BaseDirective class is a template for the creation of a custom directive class to use alongside this library. It
@@ -31,7 +32,6 @@ public class BaseDirective implements Directive {
     private String arguments;
     private FieldList options;
     private String content;
-    private static final String INDENT = "    ";
 
     /**
      * Creates a directive with the name provided by the parameter
@@ -131,7 +131,9 @@ public class BaseDirective implements Directive {
         String[] optns = options.write().split("\n");
         for(String opt : optns){
             if(!opt.equals(""))
+            {
                 text += INDENT + opt + "\n";
+            }
         }
         if(!content.trim().equals("")) {
             text += "\n";

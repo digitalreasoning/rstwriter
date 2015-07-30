@@ -3,14 +3,20 @@ package com.digitalreasoning.rstwriter.bodyelement;
 import com.digitalreasoning.rstwriter.Inline;
 
 /**
- * Created by creynolds on 7/14/15.
+ * The Utils class provides two constants useful in determining output. Namely, the indent standard and the escape character.
  */
-class Utils
+public class Utils
 {
     private Utils(){}
 
+    /**
+     * The indent standard used in all classes. 4 spaces is the standard.
+     */
     public static final String INDENT = "    ";
 
+    /**
+     * The escape character for inline markup.
+     */
     public static final char ESCAPE = '$';
 
     protected static String inlineParse(String sequence, Inline... inlines){

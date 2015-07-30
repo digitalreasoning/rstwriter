@@ -17,7 +17,6 @@ class ContentBase implements RstElement{
      */
     private String title;
     private ArrayList<RstElement> elements;
-    private String text;
     private boolean isFile = false;
     /**
      * The characters and order of precedence in the borders correspond to Sphinx's recommended list at
@@ -48,11 +47,23 @@ class ContentBase implements RstElement{
         this.elements = new ArrayList<>();
         this.linkTargets = new ArrayList<>();
         this.definitions = new ArrayList<>();
-        this.text = "";
+    }
+
+    protected ContentBase(ContentBase cb){
+        this(cb.title, cb.level);
+        cb.elements.forEach(this.elements::add);
+        this.definitions.addAll(cb.definitions);
+        this.linkTargets.addAll(cb.linkTargets);
     }
 
     protected void add(RstElement element){
-        elements.add(element);
+        if(element instanceof ContentBase || element instanceof ElementBox){
+            elements.add(element);
+        }
+        else
+        {
+            elements.add(new ElementBox(element));
+        }
     }
 
     protected void addLinkTarget(LinkDefinition linkDefinition){
@@ -77,7 +88,9 @@ class ContentBase implements RstElement{
         for(String target : linkTargets){
             returnString += target;
         }
-        if(!linkTargets.isEmpty()) returnString += "\n";
+        if(!linkTargets.isEmpty()){
+            returnString += "\n";
+        }
 
         if(!isFile){
             returnString += border(title);
@@ -96,7 +109,10 @@ class ContentBase implements RstElement{
         for(Definition d : definitions){
             returnString += d.write();
         }
-        if(!definitions.isEmpty()) returnString += "\n";
+        if(!definitions.isEmpty())
+        {
+            returnString += "\n";
+        }
 
         return returnString;
     }
@@ -112,6 +128,19 @@ class ContentBase implements RstElement{
         }
         s += title + "\n" + line + "\n\n";
         return s;
+    }
+
+    class ElementBox implements RstElement{
+        private String text;
+
+        private ElementBox(RstElement element){
+            text = element.write();
+        }
+
+        @Override
+        public String write(){
+            return text;
+        }
     }
 
 }
