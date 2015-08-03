@@ -16,7 +16,7 @@ class AutoList implements RstBodyElement {
     private String marker;
     private String start;
     private String align;
-    private boolean hasItem = false;
+    private int numItems = 0;
 
     /**
      * Creates an AutoList with items defined by the parameter String. Items are separated by '\n' characters. The type of
@@ -37,6 +37,7 @@ class AutoList implements RstBodyElement {
         for(String line: lines){
             if(!line.equals("")) {
                 text += getSymbol() + " " + line + "\n";
+                numItems++;
             }
         }
     }
@@ -48,7 +49,7 @@ class AutoList implements RstBodyElement {
      * @param start beginning of the first item's line to determine list type
      */
     protected AutoList(List<String> list, String marker, String start){
-        this( "", marker, start);
+        this("", marker, start);
         addItems(list);
     }
 
@@ -72,6 +73,7 @@ class AutoList implements RstBodyElement {
     protected AutoList addItem(String str, Inline... inlines){
         String toAdd = processItem(str, inlines);
         text += getSymbol() + " " + toAdd + "\n";
+        numItems++;
         return this;
     }
 
@@ -83,6 +85,7 @@ class AutoList implements RstBodyElement {
     protected AutoList addItem(RstBodyElement element){
         String[] lines = element.write().split("\n");
         if(lines.length > 0){
+            numItems++;
             text += getSymbol() + " " + lines[0] + "\n";
             for(int i = 1; i<lines.length; i++)
                 text += align + lines[i] + "\n";
@@ -130,10 +133,14 @@ class AutoList implements RstBodyElement {
     }
 
     @Override
-    public String write() { return text; }
+    public String write() {
+        return bugCheck(text);
+    }
 
     @Override
-    public String toString(){ return text; }
+    public String toString(){
+        return write();
+    }
 
     private String processItem(String str, Inline... inlines){
         String process = new Paragraph(str, inlines).getText();
@@ -158,12 +165,27 @@ class AutoList implements RstBodyElement {
     }
 
     private String getSymbol(){
-        if(hasItem){
+        if(numItems > 0){
             return marker;
         }
         else{
-            hasItem = true;
             return start;
         }
+    }
+
+    //This bug happens in a few parsers I've tried. If used on the right side of a field list, with a single item in each
+    //the main list and sublist, the parser will combine them to a single list. This function corrects for this with a
+    //formatted comment
+    private String bugCheck(String str){
+        if(numItems == 1){
+            int index = str.indexOf("\n\n" + Utils.INDENT);
+            if(index != -1){
+                int newLine = str.indexOf("\n", index+ ("\n\n" + Utils.INDENT).length());
+                if(newLine == str.length()-2 && str.charAt(newLine+1) == '\n'){
+                    return str + ".. Formatting\n";
+                }
+            }
+        }
+        return str;
     }
 }

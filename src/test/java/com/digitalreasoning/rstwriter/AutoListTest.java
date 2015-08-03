@@ -173,4 +173,15 @@ public class AutoListTest {
             assertEquals((i == 0 ? 'i' : '#') + str, rnl2[i]);
         }
     }
+
+    @Test
+    public void singleItemTest(){
+        BulletList list = RstBodyElement.bulletList().addItem("item");
+        String result = "* item\n";
+        assertEquals("Failed singleItem", result, list.write());
+        BulletList subList = new BulletList("single");
+        list.addSubList(subList);
+        result = "* item\n\n" + INDENT + "* single\n\n.. Formatting\n";
+        assertEquals("Failed sublist", result, list.write());
+    }
 }
