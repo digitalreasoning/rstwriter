@@ -1,5 +1,8 @@
 package com.digitalreasoning.rstwriter;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.digitalreasoning.rstwriter.bodyelement.Paragraph;
 import static com.digitalreasoning.rstwriter.Inline.*;
 import org.junit.Test;
@@ -54,6 +57,23 @@ public class ParagraphTest {
         assertEquals("Escape test", "escape $ test\n", new Paragraph("escape $$ test").write());
         assertEquals("Escape test", "escape $$ test\n", new Paragraph("escape $$$$ test").write());
         assertEquals("Escape test", "escape $I test\n", new Paragraph("escape $$I test").write());
+    }
+
+    @Test
+    public void escapeRstTest(){
+        String[] texts = {
+            "inline test without characters", "inline `test with a character", "inline test with * the other",
+            "inline * with both`", "* inline with `` two in a row", "", "inline mix and *`* match", "``"
+        };
+
+        String[] results = {
+            "inline test without characters", "inline \\`test with a character", "inline test with \\* the other",
+            "inline \\* with both\\`", "\\* inline with \\`\\` two in a row", "", "inline mix and \\*\\`\\* match", "\\`\\`"
+        };
+
+        for(int i = 0; i<texts.length; i++){
+            assertEquals("Escape test", results[i], Inline.escapeRst(texts[i]));
+        }
     }
 
     @Test

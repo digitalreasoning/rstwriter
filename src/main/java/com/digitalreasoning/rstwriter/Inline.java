@@ -1,5 +1,8 @@
 package com.digitalreasoning.rstwriter;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.digitalreasoning.rstwriter.bodyelement.LinkDefinition;
 import com.digitalreasoning.rstwriter.bodyelement.SubstitutionDefinition;
 
@@ -42,13 +45,22 @@ public class Inline {
     }
 
     /**
+     * Escapes the parameter string for use in restructuredText, not for use specifically in the Inline class. In other words, replaces any occurrences of * or ` with \* or \`
+     * @param str the string to be escaped
+     * @return the parameter with any *'s and `'s appropriately escaped
+     */
+    public static String escapeRst(String str){
+        return str.replaceAll(Pattern.quote("*"), Matcher.quoteReplacement("\\*")).replaceAll(Pattern.quote("`"), Matcher.quoteReplacement("\\`"));
+    }
+
+    /**
      * Surrounds the parameter String with *'s and escapes the String if necessary. The single * corresponds to italics or
      * "emphasis" styling in reStructuredText.
      * @param str the String to be marked up
      * @return an Inline object representing the marked-up/escaped String
      */
     public static Inline italics(String str){
-        return new Inline("*" + str.replaceAll("\\*", "\\*") + "*");
+        return new Inline("*" + str.replaceAll(Pattern.quote("*"), Matcher.quoteReplacement("\\*")) + "*");
     }
 
     /**
@@ -58,7 +70,7 @@ public class Inline {
      * @return an Inline object representing the marked-up/escaped String
      */
     public static Inline bold(String str){
-        return new Inline("**" + str.replaceAll("\\*\\*", "\\**") + "**");
+        return new Inline("**" + str.replaceAll(Pattern.quote("**"), Matcher.quoteReplacement("\\**")) + "**");
     }
 
     /**
@@ -68,7 +80,7 @@ public class Inline {
      * @return an Inline object representing the marked-up/escaped String
      */
     public static Inline literal(String str){
-        return new Inline("``" + str.replaceAll("``", "\\``") + "``");
+        return new Inline("``" + str.replaceAll("``", Matcher.quoteReplacement("\\``")) + "``");
     }
 
     /**
@@ -80,7 +92,7 @@ public class Inline {
      * @see LinkDefinition
      */
     public static Inline link(String name){
-        return new Inline("`" + name.replaceAll("`", "\\`") + "`_");
+        return new Inline("`" + name.replaceAll("`", Matcher.quoteReplacement("\\`")) + "`_");
     }
 
     /**
@@ -92,7 +104,7 @@ public class Inline {
      * @return an Inline object representing the marked-up/escaped String
      */
     public static Inline link(String name, String url){
-        return new Inline("`" + name.replaceAll("`", "\\`") + " <" + url + ">`_");
+        return new Inline("`" + name.replaceAll("`", Matcher.quoteReplacement("\\`")) + " <" + url + ">`_");
     }
 
     /**
@@ -108,7 +120,7 @@ public class Inline {
      */
     public static Inline link(String name, String url, Heading.Builder builder){
         builder.addDefinition(new LinkDefinition(name, url));
-        return new Inline("`" + name.replaceAll("`", "\\`") + "`_");
+        return new Inline("`" + name.replaceAll("`", Matcher.quoteReplacement("\\`")) + "`_");
     }
 
     /**
@@ -124,7 +136,7 @@ public class Inline {
      */
     public static Inline link(String name, String url, RstFile.Builder builder){
         builder.addDefinition(new LinkDefinition(name, url));
-        return new Inline("`" + name.replaceAll("`", "\\`") + "`_");
+        return new Inline("`" + name.replaceAll("`", Matcher.quoteReplacement("\\`")) + "`_");
     }
 
     /**
@@ -135,7 +147,7 @@ public class Inline {
      * @see SubstitutionDefinition
      */
     public static Inline substitution(String str){
-        return new Inline("|" + str.replaceAll("\\|", "\\|") + "|");
+        return new Inline("|" + str.replaceAll(Pattern.quote("|"), Matcher.quoteReplacement("\\|")) + "|");
     }
 
     /**
@@ -199,7 +211,7 @@ public class Inline {
      * @see <a href="http://docutils.sourceforge.net/docs/ref/rst/roles.html"></a>
      */
     public static Inline role(String role, String str){
-        return new Inline(":" + role + ":`" + str.replaceAll("`", "\\`") + "`");
+        return new Inline(":" + role + ":`" + str.replaceAll("`", Matcher.quoteReplacement("\\`")) + "`");
     }
 
 }
