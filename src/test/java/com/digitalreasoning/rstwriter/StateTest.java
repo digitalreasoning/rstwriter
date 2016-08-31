@@ -23,9 +23,9 @@ public class StateTest
 		Heading h1 = builder.build();
 		assertFalse("Headings are the same", h.write().equals(h1.write()));
 
-		String result0 = "#######\nHeading\n#######\n\nText Text Text\n\n.. image:: img.jpeg\n\n";
+		String result0 = "########\nHeading\n########\n\nText Text Text\n\n.. image:: img.jpeg\n\n";
 		assertEquals("First heading write fail", result0, h.write());
-		String result1 = result0 + ".. _target: \n\n**********\nSubHeading\n**********\n\n------\n\n";
+		String result1 = result0 + ".. _target: \n\n***********\nSubHeading\n***********\n\n------\n\n";
 		assertEquals("Second heading write fail", result1, h1.write());
 	}
 
@@ -39,9 +39,9 @@ public class StateTest
 		RstFile file1 = builder.build();
 		assertFalse("Files are the same", file0.write().equals(file1.write()));
 
-		String result0 = "text text text\n\n#######\nheading\n#######\n\nA. item\n#. item2\n#. item3\n\n";
+		String result0 = "text text text\n\n########\nheading\n########\n\nA. item\n#. item2\n#. item3\n\n";
 		assertEquals("First file fail", result0, file0.write());
-		String result1 = result0 + "##############\nSecond heading\n##############\n\nAnother paragraph\n\n";
+		String result1 = result0 + "###############\nSecond heading\n###############\n\nAnother paragraph\n\n";
 		assertEquals("Second file fail", result1, file1.write());
 	}
 
@@ -51,7 +51,7 @@ public class StateTest
 		Heading.Builder heading = Heading.getBuilder("heading");
 		heading.addBodyElement(bullet);
 		bullet.addItem("item4").addItem("item5");
-		String result = "#######\nheading\n#######\n\n* item\n* item2\n* item3\n\n";
+		String result = "########\nheading\n########\n\n* item\n* item2\n* item3\n\n";
 		assertEquals("Failed container test", result, heading.build().write());
 	}
 

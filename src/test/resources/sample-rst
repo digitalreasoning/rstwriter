@@ -10,9 +10,9 @@ deal
 
 * bullets after
 
-#######
+########
 Heading
-#######
+########
 
 Here's a paragraph. It has a lot of text but no line breaks. However, it **does** have a little bit of ``inline`` markup. It should pretty |thr| test the generator.
 
@@ -20,9 +20,9 @@ Here's a paragraph. It has a lot of text but no line breaks. However, it **does*
 * have :superscript:`some` bullets
 * with inline too
 
-**********
+***********
 subheading
-**********
+***********
 
 .. image:: picture.jpeg
     :align:    left
@@ -31,28 +31,28 @@ subheading
     :width:    200
 
 subsub
-======
+=======
 
 We'll add an inline `link`_ in here
 
 .. _subsubsub link: 
 
 subsubsub
----------
+----------
 
 .. _triple: 
 .. _the: 
 .. _fun: 
 
 quadruple
-^^^^^^^^^
+^^^^^^^^^^
 
 Here's some content
 
 .. _link: destination.com
 
 second subsub
-=============
+==============
 
 ::
 
@@ -68,9 +68,9 @@ second subsub
 
 .. |thr| replace:: thoroughly
 
-#####
+######
 Top 2
-#####
+######
 
 :field:    list
 :test:    cause why not?

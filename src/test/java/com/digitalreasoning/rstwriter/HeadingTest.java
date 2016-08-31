@@ -21,8 +21,8 @@ public class HeadingTest {
         Heading h = h0.addSubHeading(h1.addSubHeading(h2.addSubHeading(
                 h3.addSubHeading(h4.build()).build()).build()).build()).build();
 
-        String result = "########\nHeading0\n########\n\n********\nHeading1\n********\n\nHeading2\n========\n\n" +
-                "Heading3\n--------\n\nHeading4\n^^^^^^^^\n\n";
+        String result = "#########\nHeading0\n#########\n\n*********\nHeading1\n*********\n\nHeading2\n=========\n\n" +
+                "Heading3\n---------\n\nHeading4\n^^^^^^^^^\n\n";
         assertEquals("Basic Border fail", result, h.write());
 
          h0 = Heading.getBuilder("Heading0");
@@ -33,8 +33,8 @@ public class HeadingTest {
 
         h = h0.addSubHeading(h1.addSubHeading(h2.build()).build())
                 .addSubHeading(h3.addSubHeading(h4.build()).build()).build();
-        result = "########\nHeading0\n########\n\n********\nHeading1\n********\n\nHeading2\n========\n\n"+
-                "********\nHeading3\n********\n\nHeading4\n========\n\n";
+        result = "#########\nHeading0\n#########\n\n*********\nHeading1\n*********\n\nHeading2\n=========\n\n"+
+                "*********\nHeading3\n*********\n\nHeading4\n=========\n\n";
         assertEquals("Tree-like border fail", result, h.write());
 
         h0 = Heading.getBuilder("Heading0");
@@ -44,8 +44,8 @@ public class HeadingTest {
         h4 = Heading.getBuilder("Heading4");
         h = h0.addSubHeading(h1.addSubHeading(h2.addSubHeading(h3.build()).build()).build())
                 .addSubHeading(h4.build()).build();
-        result  = "########\nHeading0\n########\n\n********\nHeading1\n********\n\nHeading2\n========\n\n" +
-                "Heading3\n--------\n\n********\nHeading4\n********\n\n";
+        result  = "#########\nHeading0\n#########\n\n*********\nHeading1\n*********\n\nHeading2\n=========\n\n" +
+                "Heading3\n---------\n\n*********\nHeading4\n*********\n\n";
         assertEquals("Asymmetric border fail", result, h.write());
     }
 
@@ -60,12 +60,12 @@ public class HeadingTest {
                         .addParagraph("Some detailed info")
                     .closeSubHeading()
                 .closeSubHeading().build();
-        String result = "##########\nTopHeading\n##########\n\n"
+        String result = "###########\nTopHeading\n###########\n\n"
                 + "Intro for this heading\n\nSecond paragraph\n\n"
-                    + "****************\nFirst subHeading\n****************\n\n"
+                    + "*****************\nFirst subHeading\n*****************\n\n"
                         + "There's information here\n\n* point1\n* point2\n* point3\n\n"
-                    + "*****************\nSecond subHeading\n*****************\n\n"
-                        + "Sub subHeading\n==============\n\n"
+                    + "******************\nSecond subHeading\n******************\n\n"
+                        + "Sub subHeading\n===============\n\n"
                             + "Some detailed info\n\n";
         assertEquals("content failed", result, h.write());
     }

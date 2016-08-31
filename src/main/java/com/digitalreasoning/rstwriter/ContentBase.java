@@ -119,7 +119,7 @@ class ContentBase implements RstElement{
 
     private String border(String str){
         String line = "";
-        for(int i = 0; i < str.length(); i++){
+        for(int i = 0; i < str.length()+1; i++){
             line += borders[level];
         }
         String s = "";
