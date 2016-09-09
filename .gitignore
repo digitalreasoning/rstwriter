@@ -5,6 +5,7 @@
 .idea/
 
 target/
+*.versionsBackup
 
 # Mac filesystem
 .DS_Store
