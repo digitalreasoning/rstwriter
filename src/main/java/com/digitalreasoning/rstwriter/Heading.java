@@ -11,7 +11,7 @@ import com.digitalreasoning.rstwriter.bodyelement.Paragraph;
  * content. ReStructuredText Headings also serve as implicit link targets in a table of contents or possibly inline 
  * references. Bordering and nesting of Headings is automatically handled. From highest level to lowest level, the bordering
  * standard is given by the following character order:
- *    # * = - ^ " ' : . / ; \ , ` [ { ( < + _ $ % & @ ? ! ] } ) >
+ * <pre>  # * = - ^ " ' : . / ; \ , ` [ { ( &lt; + _ $ % &amp; @ ? ! ] } ) &gt;</pre>
  *
  * The first two will be over-lined as well, so a sample Heading tree:
  * Top Heading
